@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Panel - Hogwarts{% endblock %}
+
+{% block content %}
+<div class="flag">
+    🏆 CONGRATULATIONS! You've accessed the Admin Panel!<br>
+    FLAG: {{ flag }}
+</div>
+
+<h2>🛡️ Hogwarts Admin Panel</h2>
+
+<div style="margin: 30px 0;">
+    <h3>All System Users</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Password (Encrypted)</th>
+                <th>Role</th>
+                <th>House</th>
+                <th>Secret Information</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user['id'] }}</td>
+                <td>{{ user['username'] }}</td>
+                <td style="font-family: monospace; font-size: 12px;">{{ user['password'][:20] }}...</td>
+                <td>
+                    <span style="
+                        padding: 5px 10px;
+                        border-radius: 3px;
+                        font-size: 12px;
+                        {% if user['role'] == 'admin' %}
+                            background: rgba(231, 76, 60, 0.3); color: #e74c3c;
+                        {% elif user['role'] == 'professor' or user['role'] == 'headmaster' %}
+                            background: rgba(243, 156, 18, 0.3); color: #f39c12;
+                        {% else %}
+                            background: rgba(46, 204, 113, 0.3); color: #2ecc71;
+                        {% endif %}
+                    ">
+                        {{ user['role'] }}
+                    </span>
+                </td>
+                <td>{{ user['house'] }}</td>
+                <td>
+                    {% if user['secret_info'] %}
+                        <span class="flag">{{ user['secret_info'] }}</span>
+                    {% else %}
+                        <em style="opacity: 0.5;">None</em>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div style="margin-top: 40px; padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
+    <h3>Admin Actions</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+        <button class="btn" onclick="alert('User management coming soon!')">Manage Users</button>
+        <button class="btn" onclick="alert('System settings coming soon!')">System Settings</button>
+        <button class="btn" onclick="alert('Database backup coming soon!')">Backup Database</button>
+        <button class="btn" onclick="window.location.href='/debug_info'">Debug Info</button>
+    </div>
+</div>
+
+<div style="margin-top: 40px; padding: 20px; background: rgba(231, 76, 60, 0.1); border: 2px solid #e74c3c; border-radius: 10px;">
+    <h3>⚠️ Security Notices</h3>
+    <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+        <li>This panel should only be accessible to users with admin role</li>
+        <li>All actions are logged and monitored</li>
+        <li>Unauthorized access will result in disciplinary action</li>
+        <li>Passwords are encrypted using custom encryption algorithm</li>
+    </ul>
+</div>
+
+
+<script>
+    console.log('🛡️ Admin Panel Loaded');
+    console.log('You have successfully accessed the admin panel!');
+    console.log('');
+    console.log('How did you get here? Common attack vectors:');
+    console.log('1. Session cookie manipulation');
+    console.log('2. JWT token forgery');
+    console.log('3. SQL injection to elevate privileges');
+    console.log('4. Exploiting broken access control');
+    console.log('');
+    console.log('Current session:', document.cookie);
+    
+    // Display encryption info
+    console.log('Password Encryption Details:');
+    console.log('- Algorithm: Custom ROT13 + Base64');
+    console.log('- Easily reversible for demonstration purposes');
+    console.log('- Check custom_encrypt() and custom_decrypt() in app.py');
+    
+    // Extract all flags from the page
+    const flags = document.querySelectorAll('.flag');
+    if (flags.length > 0) {
+        console.log('');
+        console.log('%c🏆 FLAGS FOUND ON THIS PAGE:', 'color: #2ecc71; font-size: 16px; font-weight: bold;');
+        flags.forEach((flag, index) => {
+            console.log(`Flag ${index + 1}:`, flag.textContent.trim());
+        });
+    }
+</script>
+{% endblock %}
+

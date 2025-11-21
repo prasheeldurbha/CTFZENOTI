@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Potion Maker - Hogwarts{% endblock %}
+
+{% block content %}
+<h2>Advanced Potion Maker</h2>
+
+<div style="margin: 30px 0;">
+    <form method="POST" action="{{ url_for('potion_maker') }}">
+        <div class="form-group">
+            <label for="potion_name">Potion Name:</label>
+            <input type="text" id="potion_name" name="potion_name" placeholder="Felix Felicis" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="ingredients">Ingredients (comma-separated):</label>
+            <textarea id="ingredients" name="ingredients" placeholder="Unicorn hair, Phoenix feather, Dragon scale" required></textarea>
+        </div>
+        
+        <button type="submit" class="btn">Brew Potion</button>
+    </form>
+</div>
+
+{% if potion_name %}
+<div style="margin-top: 50px; padding: 30px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
+    <h3>Potion Recipe</h3>
+    
+    <div style="margin: 20px 0;">
+        <h4>Potion: <span id="potionDisplay" style="color: #f39c12;">{{ potion_name }}</span></h4>
+    </div>
+    
+    <div style="margin: 20px 0;">
+        <h4>Ingredients:</h4>
+        <ul id="ingredientList" style="margin-left: 20px; line-height: 1.8;">
+            {% for ingredient in ingredients %}
+            <li id="ingredient_{{ loop.index }}">{{ ingredient }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <div style="margin-top: 30px; padding: 20px; background: rgba(243, 156, 18, 0.1); border-radius: 5px;">
+        <p style="font-size: 14px; opacity: 0.8;">
+            ✨ Your potion has been added to the brewing queue!
+        </p>
+    </div>
+</div>
+{% endif %}
+
+<!-- <div style="margin-top: 40px; padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
+    <h3>🎓 Potion Brewing Guide</h3>
+    <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+        <li>Enter a creative potion name</li>
+        <li>List ingredients separated by commas</li>
+        <li>Experiment with magical combinations</li>
+        <li>Each ingredient gets a unique ID for tracking</li>
+    </ul>
+</div> -->
+
+<!-- <div style="margin-top: 30px; padding: 20px; background: rgba(231, 76, 60, 0.1); border: 2px solid #e74c3c; border-radius: 10px;">
+    <h3>⚠️ Advanced Challenge: DOM Clobbering</h3>
+    <p style="margin: 15px 0; opacity: 0.9;">
+        This potion maker uses DOM element IDs for tracking ingredients.
+        Can you exploit DOM clobbering to manipulate page behavior?
+    </p>
+    <p style="margin: 15px 0; font-size: 14px; opacity: 0.8;">
+        <strong>Difficulty:</strong> ⭐⭐⭐⭐ VERY HARD
+    </p>
+    <p style="margin: 15px 0; font-size: 14px; opacity: 0.8;">
+        <strong>Research:</strong> DOM Clobbering, ID/Name attribute exploitation
+    </p>
+</div> -->
+
+
+
+<script>
+    console.log('Potion Maker System');
+    console.log('DOM Clobbering challenge active');
+    console.log('Each ingredient/potion gets DOM IDs');
+    console.log('Research: How can ID attributes affect JavaScript?');
+    
+    // This code might be vulnerable to DOM clobbering
+    function brewPotion() {
+        var potion = document.getElementById('potionDisplay');
+        var ingredients = document.getElementById('ingredientList');
+        
+        if (potion && ingredients) {
+            console.log('Brewing:', potion.textContent);
+            console.log('With ingredients:', ingredients.children.length);
+        }
+    }
+    
+    // Check for DOM clobbering
+    if (window.potionDisplay) {
+        console.warn('DOM Clobbering detected: window.potionDisplay exists!');
+    }
+    
+    console.log('Tip: Elements with ID attributes become global variables');
+    console.log('Tip: This can be used to override expected values');
+</script>
+{% endblock %}
+

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="text-align: center; padding: 50px 0;">
+    <h1 style="font-size: 48px; margin-bottom: 30px;">⚡ Welcome to Hogwarts ⚡</h1>
+    <p style="font-size: 20px; margin-bottom: 30px;">
+        The most advanced magical institution in the wizarding world.
+    </p>
+    
+    <div style="margin-top: 50px;">
+        <a href="{{ url_for('login') }}" class="btn" style="text-decoration: none; padding: 15px 40px; font-size: 20px;">
+            Enter the Castle
+        </a>
+    </div>
+    
+    <div style="margin-top: 100px; opacity: 0.5; font-size: 14px;">
+        <p> CTF Challenge: Find all the hidden flags!</p>
+        <p>Hint: Not everything is as it seems in the magical world...</p>
+    </div>
+</div>
+
+
+
+<script>
+    // Configuration object
+    var config = {
+        version: "1.0.0",
+        debug: false,
+        
+        apiEndpoint: "/api/",
+        timeout: 5000
+    };
+    
+    
+    function revelio() {
+        console.log("You've discovered the Revelio charm!");
+        console.log("Keep searching for more secrets...");
+        console.log("Hint: Check /debug_info endpoint");
+    }
+    
+   
+    console.log("%cMischief Managed!", "color: #f39c12; font-size: 20px; font-weight: bold;");
+    console.log("Pro tip: Try exploring different user roles and their permissions");
+</script>
+{% endblock %}
+

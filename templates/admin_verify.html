@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Verification - Hogwarts CTF{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-warning shadow-lg">
+                <div class="card-header bg-warning text-dark">
+                    <h2 class="mb-0">
+                        <i class="fas fa-shield-alt"></i> Admin Panel Access Verification
+                    </h2>
+                </div>
+                <div class="card-body">
+                    {% if error %}
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fas fa-exclamation-triangle"></i> {{ error }}
+                    </div>
+                    {% endif %}
+                    
+                    {% if success %}
+                    <div class="alert alert-success" role="alert">
+                        <i class="fas fa-check-circle"></i> {{ success }}
+                    </div>
+                    {% endif %}
+                    
+                    <div class="alert alert-info mb-4">
+                        <h5><i class="fas fa-info-circle"></i> Security Notice</h5>
+                        <p class="mb-2">
+                            Access to the Admin Panel requires completion of all previous challenges.
+                        </p>
+                        <p class="mb-0">
+                            <strong>Submit all flags you've collected to verify your progress.</strong>
+                        </p>
+                    </div>
+                    
+                    <form method="POST" class="needs-validation" novalidate>
+                        <!-- <div class="mb-4">
+                            <h5 class="border-bottom pb-2">
+                                <i class="fas fa-flag-checkered text-danger"></i> Flag Submission
+                            </h5>
+                            <p class="text-muted">
+                                Enter all flags in the format: <code>HP_CTF{...}</code>
+                            </p>
+                        </div> -->
+                        
+                        <div class="mb-3">
+                            <label for="flag1" class="form-label">
+                                <strong>Flag 1:
+                            </label>
+                            <input type="text" class="form-control" id="flag1" name="flag1" 
+                                   placeholder="" required>
+                            
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="flag2" class="form-label">
+                                <strong>Flag 2:
+                            </label>
+                            <input type="text" class="form-control" id="flag2" name="flag2" 
+                                   placeholder="" required>
+                            
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="flag5" class="form-label">
+                                <strong>Flag 5
+                            </label>
+                            <input type="text" class="form-control" id="flag5" name="flag5" 
+                                   placeholder="" required>
+                            
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="flag6" class="form-label">
+                                <strong>Flag 6:
+                            </label>
+                            <input type="text" class="form-control" id="flag6" name="flag6" 
+                                   placeholder="" required>
+                            
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="flag7" class="form-label">
+                                <strong>Flag 7:
+                            </label>
+                            <input type="text" class="form-control" id="flag7" name="flag7" 
+                                   placeholder="" required>
+                            
+                        </div>
+                        <br>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-warning btn-lg">
+                                <i class="fas fa-unlock"></i> Verify & Access Admin Panel
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <hr class="my-4">
+                    
+                    <div class="alert alert-light border">
+                      
+                        
+                    </div>
+                </div>
+                
+                <div class="card-footer text-muted text-center">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 15px;
+        overflow: hidden;
+    }
+    
+    .card-header {
+        border-bottom: 3px solid #856404;
+    }
+    
+    .form-control:focus {
+        border-color: #ffc107;
+        box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+    }
+    
+    .btn-warning:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+    
+    code {
+        background-color: #f8f9fa;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-family: 'Courier New', monospace;
+    }
+</style>
+{% endblock %}
+

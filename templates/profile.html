@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - Hogwarts{% endblock %}
+
+{% block content %}
+<h2>Wizard Profile</h2>
+
+<div style="margin: 30px 0;">
+    <h3>Edit Your Profile</h3>
+    <form method="POST" action="{{ url_for('profile') }}">
+        <div class="form-group">
+            <label for="bio">Biography:</label>
+            <textarea id="bio" name="bio" placeholder="Tell us about yourself...">{{ profile.bio }}</textarea>
+            <p style="font-size: 12px; opacity: 0.6;">HTML is supported! Be creative!</p>
+        </div>
+        
+        <div class="form-group">
+            <label for="quote">Favorite Quote:</label>
+            <input type="text" id="quote" name="quote" value="{{ profile.quote }}" placeholder="Your magical motto">
+        </div>
+        
+        <div class="form-group">
+            <label for="website">Website:</label>
+            <input type="text" id="website" name="website" value="{{ profile.website }}" placeholder="https://example.com">
+        </div>
+        
+        <button type="submit" class="btn">Update Profile</button>
+    </form>
+</div>
+
+<div style="margin-top: 50px; padding: 30px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
+    <h3>Your Public Profile</h3>
+    
+    <div style="margin: 20px 0;">
+        <h4>Biography:</h4>
+       
+        <div style="padding: 15px; background: rgba(255, 255, 255, 0.03); border-radius: 5px;">
+            {{ profile.bio|safe }}
+        </div>
+    </div>
+    
+    <div style="margin: 20px 0;">
+        <h4>Favorite Quote:</h4>
+       
+        <blockquote style="padding: 15px; border-left: 4px solid #f39c12; background: rgba(243, 156, 18, 0.1);">
+            {{ profile.quote|safe }}
+        </blockquote>
+    </div>
+    
+    <div style="margin: 20px 0;">
+        <h4>Website:</h4>
+       
+        {% if profile.website %}
+        <a href="{{ profile.website }}" target="_blank" style="color: #f39c12;">Visit Website</a>
+        {% else %}
+        <p style="opacity: 0.6;">No website set</p>
+        {% endif %}
+    </div>
+</div>
+
+
+
+
+<script>
+    console.log('Profile Editor Active');
+    console.log('Hint: Each field has different XSS protections');
+    console.log('Try bypassing filters with:');
+    console.log('  - Alternative tags and attributes');
+    console.log('  - Character encoding');
+    console.log('  - Context-specific payloads');
+</script>
+{% endblock %}
+

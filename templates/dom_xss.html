@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Magical Portal - Hogwarts{% endblock %}
+
+{% block content %}
+<h2>🌀 The Magical Portal</h2>
+
+<div style="margin: 30px 0; padding: 30px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
+    <div style="text-align: center;">
+        <div style="font-size: 100px; margin: 50px 0;">🌀</div>
+        <h3 style="color: #f39c12;">Portal Message System</h3>
+        <p style="opacity: 0.8; margin: 20px 0;">
+            Enter your message to test the portal communication system
+        </p>
+    </div>
+    
+   
+    <div style="margin: 30px 0; text-align: center;">
+        <input type="text" 
+               id="message" 
+               placeholder="Enter your message..."
+               style="width: 80%; max-width: 600px; padding: 15px; font-size: 16px; border: 2px solid rgba(243, 156, 18, 0.5); border-radius: 5px; background: rgba(255, 255, 255, 0.1); color: #fff;">
+        <br>
+        <button onclick="sendMessage()" 
+                style="margin-top: 15px; padding: 12px 40px; font-size: 16px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+            Send Message
+        </button>
+    </div>
+    
+    <div id="output" style="margin-top: 30px; padding: 30px; background: rgba(243, 156, 18, 0.1); border-radius: 5px; min-height: 150px;">
+        <p style="opacity: 0.6; text-align: center; font-size: 18px;">No messages sent yet...</p>
+    </div>
+</div>
+
+<script>
+        const FLAG_3 = 'HP_CTF{d0m_xss_p0rt4l_br34ch3d}';
+    
+        document.body.setAttribute('data-secret-flag', 'HP_CTF{cl13nt_s1d3_1nj3ct10n_pwn3d}');
+    
+    
+    function sendMessage() {
+        const message = document.getElementById('message').value;
+        const output = document.getElementById('output');
+        
+        if (message) {
+                        output.innerHTML = `
+                <div style="text-align: left;">
+                    <h4 style="color: #f39c12;">📨 Portal Message:</h4>
+                    <div style="padding: 15px; background: rgba(255, 255, 255, 0.05); border-radius: 5px; margin-top: 10px;">
+                        ${message}
+                    </div>
+                    <p style="margin-top: 15px; opacity: 0.7; font-size: 14px;">Message transmitted through the portal...</p>
+                </div>
+            `;
+        } else {
+            output.innerHTML = '<p style="color: #e74c3c;">⚠️ Please enter a message!</p>';
+        }
+    }
+    
+    
+    document.getElementById('message').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+    
+    
+    console.log('%c🌀 Portal Message System - DOM XSS Challenge', 'font-size: 18px; font-weight: bold; color: #f39c12');
+    console.log('');
+    console.log('%c⚠️ FLAGS 3 & 4 Hidden Here!', 'font-size: 14px; font-weight: bold; color: #e74c3c');
+    console.log('');
+    console.log('%c🎯 Challenge:', 'font-weight: bold; color: #3498db');
+    console.log('  The message input is vulnerable to DOM XSS (innerHTML injection)');
+    console.log('  FLAG 3: Hidden in JavaScript variable FLAG_3');
+    console.log('  FLAG 4: Hidden in body attribute data-secret-flag');
+    console.log('');
+    console.log('%c💡 How to Exploit:', 'font-weight: bold; color: #2ecc71');
+    console.log('  1. Type an XSS payload in the input field');
+    console.log('  2. Click "Send Message" button');
+    console.log('  3. Your JavaScript will execute and reveal the flags!');
+    console.log('');
+    console.log('%Example Payloads:', 'font-weight: bold; color: #3498db');
+    console.log('');
+    console.log('  FLAG 3:');
+    console.log('  <img src=x onerror=alert(FLAG_3)>');
+    console.log('  <svg onload=alert(FLAG_3)>');
+    console.log('  <iframe onload=alert(FLAG_3)>');
+    console.log('');
+    console.log('  FLAG 4:');
+    console.log('  <img src=x onerror=alert(document.body.getAttribute("data-secret-flag"))>');
+    console.log('  <svg onload=alert(document.body.dataset.secretFlag)>');
+    console.log('');
+    console.log('%c🔥 Super Easy Test:', 'font-weight: bold; color: #e74c3c');
+    console.log('  Just type this in the input: <img src=x onerror=alert(FLAG_3)>');
+    console.log('  Then click "Send Message" - You should see the flag!');
+    console.log('');
+</script>
+
+{% endblock %}

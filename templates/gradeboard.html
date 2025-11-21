@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}Gradeboard - Hogwarts{% endblock %}
+
+{% block content %}
+<h2>Student Gradeboard</h2>
+
+<div style="margin: 30px 0;">
+    <form method="GET" action="{{ url_for('gradeboard') }}">
+        <div style="display: grid; grid-template-columns: 2fr 1fr auto; gap: 10px;">
+            <input type="text" 
+                   name="student" 
+                   placeholder="Search student name..." 
+                   value="{{ student_name }}"
+                   style="padding: 12px; border: 2px solid rgba(243, 156, 18, 0.3); border-radius: 5px; background: rgba(255, 255, 255, 0.1); color: #fff;">
+            
+            <input type="text" 
+                   name="subject" 
+                   placeholder="Subject filter..." 
+                   value="{{ subject }}"
+                   style="padding: 12px; border: 2px solid rgba(243, 156, 18, 0.3); border-radius: 5px; background: rgba(255, 255, 255, 0.1); color: #fff;">
+            
+            <button type="submit" class="btn">Search</button>
+        </div>
+    </form>
+</div>
+
+{% if results %}
+<div style="margin-top: 30px;">
+    <h3>Search Results</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Student Name</th>
+                <th>Year</th>
+                <th>GPA</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+            <tr>
+                <td>{{ result['id'] }}</td>
+                <td><strong>{{ result['student_name'] }}</strong></td>
+                <td>{{ result['year'] }}</td>
+                <td>{{ result['gpa'] }}</td>
+                <td>{{ result['private_notes'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% elif student_name %}
+<div style="margin-top: 30px; padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
+    <p style="opacity: 0.7;">No results found for: <strong>{{ student_name }}</strong></p>
+    {% if subject %}
+    <p style="opacity: 0.7; margin-top: 10px;">Subject filter: <strong>{{ subject|safe }}</strong></p>
+    {% endif %}
+</div>
+{% endif %}
+
+<!-- <div style="margin-top: 40px; padding: 20px; background: rgba(231, 76, 60, 0.1); border: 2px solid #e74c3c; border-radius: 10px;">
+    <h3>⚠️ EXPERT LEVEL: SQL Injection + XSS Combo</h3>
+    <p style="margin: 15px 0; opacity: 0.9;">
+        This gradeboard has <strong>both SQL injection AND XSS</strong> vulnerabilities!
+    </p>
+    <p style="margin: 15px 0; font-size: 14px; opacity: 0.8;">
+        <strong>Difficulty:</strong> ⭐⭐⭐⭐⭐ EXPERT LEVEL
+    </p>
+    
+    <div style="margin-top: 20px;">
+        <h4>SQL Injection Protection (WAF-like):</h4>
+        <p style="margin: 10px 0; font-size: 14px; opacity: 0.8;">
+            The following keywords are filtered (case-insensitive):
+        </p>
+        <ul style="margin-left: 20px; line-height: 1.8; font-family: monospace; font-size: 13px; opacity: 0.8;">
+            <li>union, select, drop, insert, update, delete</li>
+            <li>--, ;, /*, */ (SQL comment syntax)</li>
+            <li>or 1=1 (common injection pattern)</li>
+        </ul>
+        <p style="margin: 10px 0; font-size: 12px; opacity: 0.6;">
+            Challenge: Bypass these filters to extract data!
+        </p>
+    </div> -->
+    
+    <!-- <div style="margin-top: 20px;">
+        <h4>XSS Protection:</h4>
+        <ul style="margin-left: 20px; line-height: 1.8; opacity: 0.8;">
+            <li><strong>student:</strong> Strict XSS filter</li>
+            <li><strong>subject:</strong> Basic XSS filter (easier!)</li>
+        </ul>
+    </div>
+</div>
+
+<div style="margin-top: 30px; padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
+    <h3>💡 Challenge Hints</h3>
+    <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+        <li>SQL filters remove keywords but don't check for alternatives</li>
+        <li>Try: UNunionION, SEselectLECT (double encoding)</li>
+        <li>Alternative SQL syntax: LIMIT vs TOP, || vs CONCAT</li>
+        <li>Boolean-based injection: AND vs &&, OR vs ||</li>
+        <li>XSS in subject parameter is easier to exploit</li>
+        <li>Chain SQL injection with XSS for maximum impact</li>
+    </ul>
+</div> -->
+
+
+<script>
+    console.log('Gradeboard System');
+    console.log('EXPERT LEVEL: Dual vulnerability challenge');
+    console.log('SQL Injection: Student parameter (WAF protected)');
+    console.log('XSS: Subject parameter (basic filter)');
+    console.log('');
+    console.log('SQL Bypass techniques:');
+    console.log('  - Double encoding: UNunionION -> UNION');
+    console.log('  - Alternative operators: || instead of OR');
+    console.log('  - Case manipulation');
+    console.log('');
+    console.log('XSS techniques:');
+    console.log('  - Alternative tags: <svg>, <img>, <video>');
+    console.log('  - Event handlers: onload, onerror, etc.');
+</script>
+{% endblock %}
+

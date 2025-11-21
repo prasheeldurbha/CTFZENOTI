@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}Manage House Points - Hogwarts{% endblock %}
+
+{% block content %}
+<h2>⚡ Manage House Points (Professor Only)</h2>
+
+<div style="margin: 30px 0;">
+    <h3>Award Points to Houses</h3>
+    
+    {% if success %}
+    <div style="padding: 15px; margin: 15px 0; background: rgba(46, 204, 113, 0.2); border: 2px solid #2ecc71; border-radius: 5px; color: #2ecc71;">
+        <strong>{{ success }}</strong>
+    </div>
+    {% endif %}
+    
+    {% if error %}
+    <div class="error">
+        <strong>{{ error }}</strong>
+    </div>
+    {% endif %}
+    
+    <form method="POST" action="{{ url_for('house_points_admin') }}">
+        <div class="form-group">
+            <label for="house">Select House:</label>
+            <select id="house" name="house" required>
+                <option value="Gryffindor">Gryffindor</option>
+                <option value="Slytherin">Slytherin</option>
+                <option value="Ravenclaw">Ravenclaw</option>
+                <option value="Hufflepuff">Hufflepuff</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="points">Points to Award:</label>
+            <input type="number" id="points" name="points" min="1" max="100" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="reason">Reason (XSS Test Here):</label>
+            <textarea id="reason" 
+                      name="reason" 
+                      rows="4" 
+                      placeholder="Enter reason for awarding points... (This field is vulnerable to Stored XSS!)" 
+                      required
+                      style="width: 100%; padding: 10px; border: 2px solid rgba(243, 156, 18, 0.5); border-radius: 5px; background: rgba(255, 255, 255, 0.1); color: #fff; font-size: 16px; font-family: monospace;"></textarea>
+            <p style="font-size: 12px; opacity: 0.6; margin-top: 5px;">
+                ⚠️ This is not a place for mediocracy 
+            </p>
+        </div>
+        
+        <button type="submit" class="btn">Award Points</button>
+    </form>
+</div>
+
+<div style="margin-top: 50px;">
+    <h3>Recent Point Awards</h3>
+    <p style="opacity: 0.7; margin: 10px 0;">All house point awards are displayed below.</p>
+    
+    {% if house_points %}
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>House</th>
+                <th>Points</th>
+                <th>Reason</th>
+                <th>Awarded By</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for award in house_points %}
+            <tr>
+                <td>{{ award['id'] }}</td>
+                <td><strong>{{ award['house'] }}</strong></td>
+                <td style="font-size: 20px; font-weight: bold; color: #f39c12;">{{ award['points'] }}</td>
+                <td style="max-width: 400px;">{{ award['reason']|safe }}</td>
+                <td>{{ award['awarded_by'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p style="text-align: center; opacity: 0.6; padding: 20px;">No point awards yet.</p>
+    {% endif %}
+</div>
+
+<div style="margin-top: 40px; padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
+    <h3>💡 Admin Tips</h3>
+    <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+        <li>Points are awarded cumulatively to each house</li>
+        <li>Only professors and headmasters can access this panel</li>
+        <li>All point awards are logged and permanent</li>
+        <li>Use responsibly - the House Cup depends on fair play!</li>
+    </ul>
+</div>
+
+
+
+<script>
+    
+    document.cookie = "flag6=HP_CTF{st0r3d_xss_3xp3rt_byp4ss}; path=/";
+    
+    
+    const form = document.querySelector('form');
+    
+    form.addEventListener('submit', function(e) {
+        const points = document.getElementById('points').value;
+        const house = document.getElementById('house').value;
+        
+      
+        if (points < 1 || points > 100) {
+            console.warn('Points should be between 1 and 100, but proceeding anyway...');
+        }
+        
+        console.log('Submitting house points update...');
+        console.log('House:', house);
+        console.log('Points:', points);
+    });
+    
+    // Developer debugging
+    console.log('⚡ House Points Admin Panel - STORED XSS Challenge');
+    console.log('');
+    console.log('🚨 STORED XSS VULNERABILITY - VERY DIFFICULT LEVEL');
+    console.log('The "reason" field is vulnerable to Stored XSS!');
+    console.log('Content is saved to database and rendered without escaping.');
+    console.log('');
+    console.log('🛡️ ADVANCED FILTERS (3 Layers):');
+    console.log('');
+    console.log('Layer 1 - Blocks common XSS:');
+    console.log('  ❌ <script>, <img>, <svg>, <iframe>, <details>, <marquee>');
+    console.log('  ❌ onerror, onload, onclick, ontoggle, onstart, etc.');
+    console.log('  ❌ alert(, prompt(, eval(, javascript:, src=, href=');
+    console.log('');
+    console.log('Layer 2 - Blocks encoding:');
+    console.log('  ❌ &#, &lt;, &gt; (HTML entities)');
+    console.log('');
+    console.log('Layer 3 - Blocks bypass attempts:');
+    console.log('  ❌ \\x, \\u, %3C, %3E (hex/unicode/URL encoding)');
+    console.log('');
+    console.log('💡 BYPASS TECHNIQUES (Expert Required):');
+    console.log('');
+    console.log('1. Uncommon HTML5 tags:');
+    console.log('   <keygen>, <math>, <mtext>, <mglyph>, <blink>');
+    console.log('');
+    console.log('2. Uncommon event handlers:');
+    console.log('   oncut, oncopy, onpaste, ondrag, ondrop, onwheel');
+    console.log('   onabort, onwaiting, onpointerover, onpointerdown');
+    console.log('');
+    console.log('3. Mutation XSS:');
+    console.log('   <noscript><p title="</noscript><xss>">');
+    console.log('   <math><mtext><table><mglyph><xss>');
+    console.log('');
+    console.log('4. Construct without blocked keywords:');
+    console.log('   Build "alert" without typing it directly');
+    console.log('   Use String.fromCharCode() or similar');
+    console.log('');
+    console.log('🎯 GOAL: Execute JavaScript to get the flag');
+    console.log('FLAG: HP_CTF{st0r3d_xss_3xp3rt_byp4ss}');
+    console.log('');
+    console.log('💭 HINT: What tags and events are NOT in the blocklist?');
+</script>
+{% endblock %}
+

@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}Search Spells - Hogwarts{% endblock %}
+
+{% block content %}
+<h2>Spell Library</h2>
+
+<div style="margin: 30px 0;">
+    <form method="GET" action="{{ url_for('search_spells') }}">
+        <div style="display: flex; gap: 10px;">
+            <input type="text" 
+                   name="q" 
+                   placeholder="Search for spells..." 
+                   value="{{ query }}"
+                   style="flex: 1; padding: 12px; border: 2px solid rgba(243, 156, 18, 0.3); border-radius: 5px; background: rgba(255, 255, 255, 0.1); color: #fff; font-size: 16px;">
+            <button type="submit" class="btn">Search</button>
+        </div>
+    </form>
+    
+    {% if query %}
+    <div style="margin-top: 15px; padding: 15px; background: rgba(243, 156, 18, 0.1); border-radius: 5px;">
+        <p style="opacity: 0.8;">
+            Searching for: <strong>{{ query|safe }}</strong>
+        </p>
+        {% if xss_detected %}
+        
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+{% if success %}
+<div style="padding: 15px; margin: 15px 0; background: rgba(46, 204, 113, 0.2); border: 2px solid #2ecc71; border-radius: 5px; color: #2ecc71;">
+    <strong>{{ success }}</strong>
+</div>
+{% endif %}
+
+{% if error %}
+<div class="error">
+    <strong>{{ error }}</strong>
+    <p style="font-size: 12px; margin-top: 5px;">Database query failed. Check your search syntax.</p>
+</div>
+{% endif %}
+
+{% if results %}
+<div style="margin-top: 30px;">
+    <h3>🔍 Search Results ({{ results|length }} found)</h3>
+    <p style="opacity: 0.7; margin: 10px 0;">Your query returned {{ results|length }} record(s) from the database.</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Spell Name</th>
+                <th>Incantation</th>
+                <th>Effect</th>
+                <th>Difficulty</th>
+                <th>Secret</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for spell in results %}
+            <tr>
+                <td><strong>{{ spell['spell_name'] }}</strong></td>
+                <td><em>{{ spell['incantation'] }}</em></td>
+                <td>{{ spell['effect'] }}</td>
+                <td>
+                    <span style="
+                        padding: 5px 10px; 
+                        border-radius: 3px; 
+                        font-size: 12px;
+                        {% if spell['difficulty'] == 'Dark Magic' %}
+                            background: rgba(231, 76, 60, 0.3); color: #e74c3c;
+                        {% elif spell['difficulty'] == 'Advanced' or spell['difficulty'] == 'Ancient Magic' %}
+                            background: rgba(243, 156, 18, 0.3); color: #f39c12;
+                        {% else %}
+                            background: rgba(46, 204, 113, 0.3); color: #2ecc71;
+                        {% endif %}
+                    ">
+                        {{ spell['difficulty'] }}
+                    </span>
+                </td>
+                <td>
+                    <span style="color: #f39c12; font-family: 'Courier New', monospace; font-size: 13px;">
+                        {{ spell['secret_flag'] }}
+                    </span>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+<div style="margin-top: 40px; padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
+    
+    
+</div>
+
+
+<script>
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchQuery = urlParams.get('q');
+    
+    if (searchQuery) {
+        
+        const resultsHeader = document.createElement('div');
+        resultsHeader.style.cssText = 'margin: 20px 0; padding: 15px; background: rgba(243, 156, 18, 0.1); border-radius: 5px;';
+        
+     
+        resultsHeader.innerHTML = '<p>You searched for: <strong>' + searchQuery + '</strong></p>';
+        
+       
+    }
+    
+    
+</script>
+{% endblock %}
+

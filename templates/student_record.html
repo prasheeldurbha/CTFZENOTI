@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Student Record - Hogwarts{% endblock %}
+
+{% block content %}
+<h2>🎓 Student Record</h2>
+
+<div style="margin: 30px 0; padding: 30px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div>
+            <h3 style="margin-bottom: 20px;">Personal Information</h3>
+            <p><strong>Name:</strong> {{ record['student_name'] }}</p>
+            <p><strong>Year:</strong> {{ record['year'] }}</p>
+            <p><strong>GPA:</strong> {{ record['gpa'] }}</p>
+            <p><strong>Record ID:</strong> {{ record['id'] }}</p>
+        </div>
+        
+        <div>
+            <h3 style="margin-bottom: 20px;">Academic Notes</h3>
+            <p style="line-height: 1.6;">{{ record['private_notes'] }}</p>
+            
+            {% if record['flag'] %}
+            <div class="flag" style="margin-top: 20px;">
+                🏆 FLAG FOUND: {{ record['flag'] }}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    // Display record metadata
+    const recordId = {{ record['id'] }};
+    console.log('Viewing student record:', recordId);
+    
+    // Check if this record has a flag
+    const flagElement = document.querySelector('.flag');
+    if (flagElement) {
+        console.log('%c🏆 FLAG FOUND!', 'color: #2ecc71; font-size: 20px; font-weight: bold;');
+        console.log('This record contains a CTF flag. Great job!');
+    }
+</script>
+{% endblock %}
+

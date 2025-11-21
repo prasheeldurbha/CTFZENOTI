@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Sorting Hat Chat - Hogwarts{% endblock %}
+
+{% block content %}
+<h2>🎩 Chat with the Sorting Hat</h2>
+
+<div style="margin: 30px 0; padding: 30px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
+    <div style="text-align: center; margin-bottom: 30px;">
+        <div style="font-size: 80px;">🎩</div>
+        <h3 style="color: #f39c12;">The Sorting Hat</h3>
+        <p style="opacity: 0.8;">Speak your mind... if you dare</p>
+    </div>
+    
+    <form method="POST" action="{{ url_for('wizard_chat') }}">
+        <div class="form-group">
+            <label for="message">Your Message to the Sorting Hat:</label>
+            <textarea id="message" name="message" placeholder="Tell the Sorting Hat your deepest thoughts..." required></textarea>
+        </div>
+        <button type="submit" class="btn">Send Message</button>
+    </form>
+    
+    <!-- {% if response %}
+    <div style="margin-top: 30px; padding: 20px; background: rgba(243, 156, 18, 0.1); border-radius: 10px;">
+        <h3>Conversation:</h3>
+        {{ response|safe }}
+    </div>
+    {% endif %}
+</div> -->
+
+<!-- <div style="margin-top: 40px; padding: 20px; background: rgba(231, 76, 60, 0.1); border: 2px solid #e74c3c; border-radius: 10px;">
+    <h3>⚠️ EXTREMELY HARD: Server-Side Template Injection (SSTI)</h3>
+    <p style="margin: 15px 0; opacity: 0.9;">
+        The Sorting Hat processes your messages using a powerful template engine.
+        However, dangerous template patterns are heavily filtered...
+    </p>
+    <p style="margin: 15px 0; font-size: 14px; opacity: 0.8;">
+        <strong>Difficulty:</strong> ⭐⭐⭐⭐⭐ EXTREMELY HARD
+    </p>
+    <p style="margin: 15px 0; font-size: 14px; opacity: 0.8;">
+        <strong>Filtered patterns:</strong>
+    </p>
+    <ul style="margin-left: 20px; line-height: 1.8; opacity: 0.8; font-family: monospace; font-size: 13px;">
+        <li>{% raw %}{{{% endraw %}, {% raw %}}}{% endraw %} (template delimiters)</li>
+        <li>{% raw %}{%{% endraw %}, {% raw %}%}{% endraw %} (template statements)</li>
+        <li>config, __class__, __mro__ (dangerous attributes)</li>
+        <li>subprocess, os., eval, exec, import (dangerous functions)</li>
+    </ul>
+    <p style="margin: 15px 0; font-size: 14px; opacity: 0.8;">
+        <strong>Research:</strong> SSTI bypass techniques, Jinja2 sandboxing, filter evasion
+    </p>
+</div> -->
+<!-- 
+<div style="margin-top: 30px; padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
+    <h3>💡 SSTI Challenge Hints</h3>
+    <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+        <li>The filter removes patterns, not rebuilds them</li>
+        <li>Try splitting dangerous patterns across filter boundaries</li>
+        <li>Unicode and encoding tricks might help</li>
+        <li>Alternative attribute access methods exist</li>
+        <li>Research: Jinja2 SSTI CTF writeups</li>
+    </ul>
+    <p style="margin: 15px 0; font-size: 12px; opacity: 0.6;">
+        Example research: How to access __class__ without typing "__class__"?
+    </p>
+</div> -->
+
+
+<script>
+    console.log('🎩 Sorting Hat Chat System');
+    console.log('Warning: SSTI vulnerability present (heavily filtered)');
+    console.log('This is one of the hardest challenges');
+    console.log('Research: Server-Side Template Injection (SSTI)');
+    console.log('Framework: Flask/Jinja2');
+    console.log('Your goal: Execute arbitrary template code');
+</script>
+{% endblock %}
+

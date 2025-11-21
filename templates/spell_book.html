@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block title %}Spell Book - Hogwarts{% endblock %}
+
+{% block content %}
+<style>
+   
+    .hidden-text {
+        color: transparent; 
+        background: transparent;  
+        user-select: text;  
+        cursor: default;  
+        text-shadow: none;  
+    }
+    
+    
+    .hidden-text::selection {
+        color: #fff;  
+        background: #3498db;  
+    }
+    
+    .hidden-text::-moz-selection {
+        color: #fff;
+        background: #3498db;
+    }
+</style>
+
+<h2>The Grand Spell Book</h2>
+
+<div style="margin: 30px 0;">
+    <form method="GET" action="{{ url_for('spell_book') }}">
+        <div style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 10px;">
+            <input type="text" 
+                   name="spell" 
+                   placeholder="Search spells..." 
+                   value="{{ spell_name }}"
+                   style="padding: 12px; border: 2px solid rgba(243, 156, 18, 0.3); border-radius: 5px; background: rgba(255, 255, 255, 0.1); color: #fff;">
+            
+            <select name="category" style="padding: 12px; border: 2px solid rgba(243, 156, 18, 0.3); border-radius: 5px; background: rgba(255, 255, 255, 0.1); color: #fff;">
+                <option value="all">All Categories</option>
+                <option value="defense">Defense</option>
+                <option value="charm">Charms</option>
+                <option value="dark">Dark Arts</option>
+                <option value="transfiguration">Transfiguration</option>
+            </select>
+            
+            <select name="sort" style="padding: 12px; border: 2px solid rgba(243, 156, 18, 0.3); border-radius: 5px; background: rgba(255, 255, 255, 0.1); color: #fff;">
+                <option value="name">Sort by Name</option>
+                <option value="difficulty">Sort by Difficulty</option>
+                <option value="power">Sort by Power</option>
+            </select>
+            
+            <button type="submit" class="btn">Search</button>
+        </div>
+    </form>
+</div>
+
+<div style="margin: 30px 0;">
+    <h3>Spell Catalog</h3>
+    
+    {% if spells %}
+    <table>
+        <thead>
+            <tr>
+                <th>Spell Name</th>
+                <th>Incantation</th>
+                <th>Effect</th>
+                <th>Difficulty</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for spell in spells %}
+            <tr>
+                <td><strong>{{ spell['spell_name'] }}</strong></td>
+                <td><em>{{ spell['incantation'] }}</em></td>
+                <td>
+                    {% if spell['spell_name'] == 'Administratum' %}
+                        {% set parts = spell['effect'].split('Hidden endpoint:') %}
+                        {{ parts[0] }}<span class="hidden-text">Hidden endpoint:{{ parts[1] }}</span>
+                    {% else %}
+                        {{ spell['effect'] }}
+                    {% endif %}
+                </td>
+                <td>
+                    <span style="
+                        padding: 5px 10px; 
+                        border-radius: 3px; 
+                        font-size: 12px;
+                        {% if spell['difficulty'] == 'Dark Magic' %}
+                            background: rgba(231, 76, 60, 0.3); color: #e74c3c;
+                        {% elif spell['difficulty'] == 'Advanced' or spell['difficulty'] == 'Ancient Magic' %}
+                            background: rgba(243, 156, 18, 0.3); color: #f39c12;
+                        {% else %}
+                            background: rgba(46, 204, 113, 0.3); color: #2ecc71;
+                        {% endif %}
+                    ">
+                        {{ spell['difficulty'] }}
+                    </span>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+
+
+
+
+
+<script>
+    
+    var sortBy = "{{ sort_by }}";
+    var spellName = "{{ spell_name }}";
+    var category = "{{ category }}";
+    
+    console.log('Spell Book Search System');
+    console.log('Current sort order:', sortBy);
+    console.log('Multi-context XSS challenge active');
+    console.log('Three vulnerability contexts:');
+    console.log('  1. Spell name (HTML, strict filter)');
+    console.log('  2. Category (HTML, basic filter)');
+    console.log('  3. Sort parameter (JavaScript, NO FILTER) <-- Easiest!');
+    
+    
+    if (sortBy && sortBy !== 'name' && sortBy !== 'difficulty' && sortBy !== 'power') {
+        console.warn('Unknown sort parameter:', sortBy);
+    }
+</script>
+{% endblock %}
+

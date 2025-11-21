@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@codacy/codacy-mcp": "^0.6.18"
+  }
+}

@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Hogwarts{% endblock %}
+
+{% block content %}
+<h2>Hogwarts Dashboard</h2>
+
+<div style="margin: 30px 0;">
+    <h3>House Points Standings</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>House</th>
+                <th>Points</th>
+                <th>Latest Achievement</th>
+                <th>Awarded By</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for house in house_points %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ house['house'] }}</td>
+                <td><strong>{{ house['points'] }}</strong></td>
+                <td>{{ house['reason'] }}</td>
+                <td>{{ house['awarded_by'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div style="margin: 30px 0;">
+    <h3>Quick Links</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px;">
+        <a href="{{ url_for('search_spells') }}" style="text-decoration: none; color: inherit;">
+            <div style="padding: 20px; background: rgba(243, 156, 18, 0.1); border-radius: 10px; text-align: center; transition: all 0.3s;">
+                <h4>Spell Library</h4>
+                <p style="font-size: 14px; opacity: 0.8; margin-top: 10px;">Search magical spells</p>
+            </div>
+        </a>
+        
+        <a href="{{ url_for('secret_notes') }}" style="text-decoration: none; color: inherit;">
+            <div style="padding: 20px; background: rgba(243, 156, 18, 0.1); border-radius: 10px; text-align: center; transition: all 0.3s;">
+                <h4>Secret Notes</h4>
+                <p style="font-size: 14px; opacity: 0.8; margin-top: 10px;">Share your thoughts</p>
+            </div>
+        </a>
+        
+        <a href="{{ url_for('student_record', student_id=1) }}" style="text-decoration: none; color: inherit;">
+            <div style="padding: 20px; background: rgba(243, 156, 18, 0.1); border-radius: 10px; text-align: center; transition: all 0.3s;">
+                <h4>🎓 Student Records</h4>
+                <p style="font-size: 14px; opacity: 0.8; margin-top: 10px;">View your records</p>
+            </div>
+        </a>
+        
+        <a href="{{ url_for('cipher_challenge') }}" style="text-decoration: none; color: inherit;">
+            <div style="padding: 20px; background: rgba(243, 156, 18, 0.1); border-radius: 10px; text-align: center; transition: all 0.3s;">
+                <h4>Cipher Challenge</h4>
+                <p style="font-size: 14px; opacity: 0.8; margin-top: 10px;">Decode ancient magic</p>
+            </div>
+        </a>
+    </div>
+</div>
+
+<div style="margin-top: 40px; padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
+    <h3>Your Profile</h3>
+    <p><strong>Username:</strong> {{ username }}</p>
+    <p><strong>Role:</strong> {{ role }}</p>
+    <p style="margin-top: 15px; font-size: 14px; opacity: 0.7;">
+        Tip: Different roles have access to different areas of the system. 
+        Explore and see what you can discover!
+    </p>
+</div>
+
+
+
+<script>
+   
+    var config = {
+        version: "1.0.0",
+        debug: false,
+        
+        apiEndpoint: "/api/",
+        timeout: 5000,
+        // JWT secret for testing (DO NOT USE IN PRODUCTION): secret_key_hogwarts_123
+        jwtDebug: false
+    };
+    
+    
+    fetch('/api/user_info', {
+        credentials: 'include'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.secret_info) {
+            console.log('Secret information found:', data.secret_info);
+            console.log('This might be a flag! Check the console carefully.');
+        }
+    })
+    .catch(err => console.error('Failed to load user info'));
+    
+    // Easter egg
+    window.addEventListener('keydown', function(e) {
+        // Konami code: ↑ ↑ ↓ ↓ ← → ← → B A
+        // Simplified: Press 'R' for Revelio
+        if (e.key === 'r' || e.key === 'R') {
+            console.log('%cREVELIO!', 'color: #f39c12; font-size: 24px; font-weight: bold;');
+            console.log('Hidden endpoints discovered:');
+            console.log('- /debug_info (contains sensitive configuration)');
+            console.log('- /api/user_info (might leak secrets)');
+            console.log('- /admin_panel (requires admin role)');
+        }
+    });
+</script>
+{% endblock %}
+

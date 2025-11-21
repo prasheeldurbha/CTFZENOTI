@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Advanced Search - Hogwarts{% endblock %}
+
+{% block content %}
+<h2>🔍 Advanced Magical Search</h2>
+
+<div style="margin: 30px 0;">
+    <form method="GET" action="{{ url_for('search_advanced') }}">
+        <div style="display: grid; grid-template-columns: 3fr 1fr auto; gap: 10px;">
+            <input type="text" 
+                   name="q" 
+                   placeholder="Search with advanced filters..." 
+                   value="{{ query }}"
+                   style="padding: 12px; border: 2px solid rgba(243, 156, 18, 0.3); border-radius: 5px; background: rgba(255, 255, 255, 0.1); color: #fff; font-size: 16px;">
+            
+            <select name="type" style="padding: 12px; border: 2px solid rgba(243, 156, 18, 0.3); border-radius: 5px; background: rgba(255, 255, 255, 0.1); color: #fff;">
+                <option value="all" {% if search_type == 'all' %}selected{% endif %}>All</option>
+                <option value="spells" {% if search_type == 'spells' %}selected{% endif %}>Spells</option>
+                <option value="students" {% if search_type == 'students' %}selected{% endif %}>Students</option>
+                <option value="books" {% if search_type == 'books' %}selected{% endif %}>Books</option>
+            </select>
+            
+            <button type="submit" class="btn">Search</button>
+        </div>
+    </form>
+</div>
+
+{% if query %}
+<div style="margin: 30px 0; padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
+    <h3>Search Results</h3>
+    <p style="margin: 15px 0;">
+        Searching for: <strong style="color: #f39c12;">{{ query }}</strong>
+    </p>
+    <p style="margin: 15px 0; opacity: 0.7;">
+        Type: {{ search_type }}
+    </p>
+    
+   
+    
+    
+    {% if flag_found %}
+    <div class="flag" style="margin-top: 20px;">
+        🏆 FLAG: HP_CTF{xss_f1lt3r_byp4ss_m4st3r}
+    </div>
+    {% endif %}
+    
+    {% if results %}
+    <div style="margin-top: 20px;">
+        <!-- Results would go here -->
+    </div>
+    {% else %}
+    <p style="margin-top: 20px; opacity: 0.6; text-align: center;">No results found</p>
+    {% endif %}
+</div>
+{% endif %}
+
+
+
+
+
+
+
+<script>
+    // CSP is active, but 'unsafe-inline' allows this
+    console.log('🔍 Advanced Search with Triple-Layer Protection');
+    console.log('CSP Active: ' + document.querySelector('meta[http-equiv="Content-Security-Policy"]'));
+    console.log('Challenge: Bypass all three protection layers');
+    console.log('Hint: Look for differences in how original_query and query are handled');
+</script>
+{% endblock %}
+

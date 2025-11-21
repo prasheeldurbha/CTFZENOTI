@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}Cipher Challenge - Hogwarts{% endblock %}
+
+{% block content %}
+<h2>Ancient Magic Cipher Challenge</h2>
+
+<div style="margin: 30px 0; padding: 30px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
+    <h3>Encrypted Message from the Founders</h3>
+    <p style="margin: 20px 0; opacity: 0.8;">
+        The founders of Hogwarts left behind an encrypted message. Only those skilled in 
+        the ancient arts of cryptography can decipher its meaning.
+    </p>
+    
+    <div style="padding: 20px; background: rgba(243, 156, 18, 0.1); border: 2px solid #f39c12; border-radius: 5px; margin: 20px 0;">
+        <p style="font-family: monospace; word-break: break-all; line-height: 1.8;">
+            {{ encrypted_msg }}
+        </p>
+    </div>
+    
+    <div class="form-group" style="margin-top: 30px;">
+        <label for="decrypted">Enter Decrypted Message:</label>
+        <textarea id="decrypted" placeholder="Decode the message here..."></textarea>
+    </div>
+    
+    <button class="btn" onclick="checkAnswer()">Verify Answer</button>
+    
+</div>
+
+
+
+<div style="margin-top: 40px; padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
+   
+    
+   
+
+
+<script>
+    const encryptedMessage = "{{ encrypted_msg }}";
+    
+    function showHint() {
+        document.getElementById('hint').style.display = 'block';
+        console.log('Hint revealed!');
+        console.log('Try decoding the Base64 string:');
+        console.log('JavaScript command: atob("' + encryptedMessage + '")');
+    }
+    
+    function checkAnswer() {
+        const answer = document.getElementById('decrypted').value.trim();
+        const decoded = atob(encryptedMessage);
+        
+        if (answer === decoded) {
+            alert('✅ Correct! But wait... this message contains another cipher. Decode it further to find the final flag!');
+            console.log('Decoded message:', decoded);
+            console.log('This looks like a substitution cipher. Try different techniques!');
+        } else if (answer.length > 0) {
+            alert('❌ Not quite right. Keep trying!');
+        } else {
+            alert('Please enter your decoded message first.');
+        }
+    }
+    
+    function showJWT() {
+        const cookies = document.cookie.split(';');
+        let jwtToken = '';
+        
+        for (let cookie of cookies) {
+            const [name, value] = cookie.trim().split('=');
+            if (name === 'auth_token') {
+                jwtToken = value;
+                break;
+            }
+        }
+        
+        if (jwtToken) {
+            document.getElementById('jwt-display').textContent = jwtToken;
+            console.log('Your JWT token:', jwtToken);
+            console.log('');
+            console.log('JWT Structure: header.payload.signature');
+            console.log('Decode it at: https://jwt.io');
+            console.log('');
+            console.log('The secret key can be found at /debug_info endpoint');
+            console.log('With the secret key, you can forge your own tokens!');
+        } else {
+            document.getElementById('jwt-display').textContent = 'No JWT token found in cookies';
+        }
+    }
+    
+    
+    console.log('Cipher Challenge Active');
+    console.log('');
+    console.log('Encrypted message:', encryptedMessage);
+    console.log('');
+    console.log('Quick decode: atob("' + encryptedMessage + '")');
+    console.log('Result:', atob(encryptedMessage));
+    console.log('');
+    console.log('The decoded message contains another cipher. Can you solve it?');
+    
+    
+    window.rot13 = function(str) {
+        return str.replace(/[a-zA-Z]/g, function(c) {
+            return String.fromCharCode((c <= "Z" ? 90 : 122) >= (c = c.charCodeAt(0) + 13) ? c : c - 26);
+        });
+    };
+    
+    window.customDecrypt = function(encrypted) {
+        try {
+            const decoded = atob(encrypted);
+            return rot13(decoded);
+        } catch (e) {
+            return 'Decryption failed';
+        }
+    };
+    
+    console.log('Helper functions available:');
+    console.log('- rot13(string) - Apply ROT13 cipher');
+    console.log('- customDecrypt(encrypted) - Decrypt custom encryption (Base64 + ROT13)');
+    console.log('');
+    console.log('Example: customDecrypt("ZXJrbmdjaGI=")');
+    
+    
+    const secretPassword = "expecto";
+    const encrypted = btoa(rot13(secretPassword));
+    console.log('');
+    console.log(' Easter Egg: Default password encrypted:', encrypted);
+    console.log('Try decrypting it: customDecrypt("' + encrypted + '")');
+</script>
+{% endblock %}
+
