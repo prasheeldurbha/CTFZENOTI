@@ -743,7 +743,7 @@ def cipher_challenge():
         return redirect(url_for('login'))
     
     # Encrypted message using custom cipher
-    encrypted_msg = "VGhlIGZpbmFsIGZsYWcgaXMgaGlkZGVuIGluIHRoZSBDaGFtYmVyIG9mIFNlY3JldHMuIFVzZSB0aGUgcGFzc3dvcmQ6IGZfcDNyZWJhbG9pZGhlX3RfcjFfMm8="
+    encrypted_msg = "VGhlIGZpbmFsIGZsYWcgaXMgaGlkZGVuIGluIHRoZSBDaGFtYmVyIG9mIFNlY3JldHMuIFVzZSB0aGUgcGFzc3dvcmQ6IGZfcDNyZWJhbG9pZGhlX3RfcjFfMm8uIHRoZSBrZXkgd29yZCBpIHNlY3JldF9mbGFn"
     
     return render_template('cipher_challenge.html', encrypted_msg=encrypted_msg)
 
